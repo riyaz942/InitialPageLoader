@@ -1,10 +1,11 @@
 import React from 'react'
 
-import { ExampleComponent } from 'initialpageloader'
+import InitialPageLoader from 'initialpageloader'
 import 'initialpageloader/dist/index.css'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  //http://www.omdbapi.com/?&page=1&s=avengers
+  return <InitialPageLoader />
 }
 
 export default App
