@@ -7,7 +7,9 @@ const App = () => {
   //http://www.omdbapi.com/?&page=1&s=avengers
   return (
     <InitialPageLoader
-      api={()=>fetch('http://www.omdbapi.com/?&apikey=edd4e8b1&page=1&s=avengers')}      
+      api={()=>fetch('http://www.omdbapi.com/?&apikey=edd4e8b1&page=1&s=avengers')}    
+      successCondition={(data)=> (data.Response == 'True')}  
+      parseResponse={(data)=>data.Response.body}
     >
       {
         (data) => (
