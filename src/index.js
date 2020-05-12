@@ -1,5 +1,6 @@
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from "prop-types";
+import styles from './index.module.scss';
 
 const pageStates = {
   LOADING: 'LOADING',
@@ -28,7 +29,6 @@ const InitialPageLoader = ({
       setPageState(pageStates.ERROR)
     }
   };
-
 
   if (callApiOnMount) useEffect(callApi, [api]);
 
