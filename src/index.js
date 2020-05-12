@@ -15,7 +15,6 @@ const InitialPageLoader = ({
   callApiOnMount,
   api,
   successCondition,
-  parseResponse,
   errorMessage,
   emptyMessage, //TODO
   children
@@ -75,7 +74,6 @@ InitialPageLoader.propTypes = {
   api: PropTypes.func.isRequired, //(Mandetory) the promise in which the api call is being made
   callApiOnMount: PropTypes.bool, //(Optional) Don't automatically want to call the api on mount, instead
   successCondition: PropTypes.func,
-  parseResponse: PropTypes.func,
 
   errorMessage: PropTypes.object,
   emptyMessage: PropTypes.object,
