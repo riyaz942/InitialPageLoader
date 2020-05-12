@@ -5,7 +5,19 @@ import 'initialpageloader/dist/index.css'
 
 const App = () => {
   //http://www.omdbapi.com/?&page=1&s=avengers
-  return <InitialPageLoader />
+  return (
+    <InitialPageLoader
+      api={()=>fetch('http://www.omdbapi.com/?&apikey=edd4e8b1&page=1&s=avengers')}      
+    >
+      {
+        (data) => (
+          <div>
+            Loaded
+          </div>
+        )
+      }
+    </InitialPageLoader>
+  )
 }
 
 export default App

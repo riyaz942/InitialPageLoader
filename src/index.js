@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
+import PropTypes from "prop-types";
 
 const pageStates = {
   LOADING: 'LOADING',
@@ -43,6 +44,7 @@ const InitialPageLoader = ({
 
 InitialPageLoader.defaultProps = {
   callApiOnMount: true,
+  successCondition: data => typeof data != 'undefined'
 };
 
 InitialPageLoader.propTypes = {
