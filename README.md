@@ -14,13 +14,25 @@ npm install --save initialpageloader
 
 ```jsx
 import React, { Component } from 'react'
-
-import MyComponent from 'initialpageloader'
-import 'initialpageloader/dist/index.css'
+import InitialPageLoader from 'initialpageloader'
 
 class Example extends Component {
   render() {
-    return <MyComponent />
+    return (
+      <InitialPageLoader
+        api={()=>axios.get('')} // Promise
+        successCondition={(data)=> (data.Response == 'True')}
+        responseParser={data => data.data}
+      >
+        {
+          (data) => (
+            <div>
+              Loaded {data.value}
+            </div>
+          )
+        }
+      </InitialPageLoader>
+    )
   }
 }
 ```
