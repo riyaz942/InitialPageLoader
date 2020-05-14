@@ -15,7 +15,9 @@ const InitialPageLoader = ({
   callApiOnMount,
   api,
   successCondition,
-  errorMessage,
+  responseParser,
+
+  errorMessage,  
   emptyMessage, //TODO
   children
 }) => {
@@ -25,12 +27,12 @@ const InitialPageLoader = ({
   const callApi = () => {
     setPageState(pageStates.LOADING);
     const promise = api();
+    
+    promise.then(data => {
+        const parsedData = responseParser(data);
+        setData(parsedData);
 
-    promise.then(response => response.json())
-      .then(data => {
-        setData(data);
-
-        if (successCondition(data)) setPageState(pageStates.COMPLETED)
+        if (successCondition(parsedData)) setPageState(pageStates.COMPLETED)
         else setPageState(pageStates.ERROR)
       })
       .catch(error => {
@@ -59,6 +61,7 @@ const InitialPageLoader = ({
 InitialPageLoader.defaultProps = {
   callApiOnMount: true,
   successCondition: data => typeof data != 'undefined',
+  responseParser: data => data,
   errorMessage: {
     title: 'Whoops! Something Went Wrong.',
     message: 'Please Retry Again.',
@@ -72,8 +75,10 @@ InitialPageLoader.defaultProps = {
 InitialPageLoader.propTypes = {
   children: PropTypes.any.isRequired, //(Mandetory) the children to show after the api call
   api: PropTypes.func.isRequired, //(Mandetory) the promise in which the api call is being made
+
   callApiOnMount: PropTypes.bool, //(Optional) Don't automatically want to call the api on mount, instead
-  successCondition: PropTypes.func,
+  successCondition: PropTypes.func, //(Optional) Handles the custom success condition
+  responseParser: PropTypes.func, //(Optional) Parsers custom data from api
 
   errorMessage: PropTypes.object,
   emptyMessage: PropTypes.object,

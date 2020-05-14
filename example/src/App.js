@@ -1,14 +1,15 @@
 import React from 'react'
-
-import InitialPageLoader from 'initialpageloader'
-import 'initialpageloader/dist/index.css'
+import axios from 'axios';
+import InitialPageLoader from 'initialpageloader';
+import 'initialpageloader/dist/index.css';
 
 const App = () => {
   //http://www.omdbapi.com/?&page=1&s=avengers
   return (
     <InitialPageLoader
-      api={()=>fetch('http://www.omdbapi.com/?&apikey=edd4e8b1&page=1&s=avengers')}    
-      successCondition={(data)=> (data.Response == 'True')}  
+      api={()=>axios.get('http://www.omdbapi.com/?&apikey=edd4e8b1&page=1&s=avengers')} // Promise
+      successCondition={(data)=> (data.Response == 'True')}
+      responseParser={data => data.data}
     >
       {
         (data) => (
