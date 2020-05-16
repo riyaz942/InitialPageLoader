@@ -1,28 +1,28 @@
-._ztB-i {
+._index-module__main_container__ztB-i {
   display: flex;
   flex-direction: column;
   flex: 1;
   align-self: stretch; }
 
-._hn-Ye {
+._index-module__error_container__hn-Ye {
   display: flex;
   flex-direction: column;
   flex: 1;
   align-self: stretch;
   justify-content: center;
   align-items: center; }
-  ._hn-Ye ._3wXp0 {
+  ._index-module__error_container__hn-Ye ._index-module__error_title_text__3wXp0 {
     font-size: 50px;
     font-weight: bold; }
-  ._hn-Ye ._3W3V1 {
+  ._index-module__error_container__hn-Ye ._index-module__error_message_text__3W3V1 {
     font-size: 16px; }
 
-._KRCJx {
+._index-module__loader_container__KRCJx {
   display: flex;
   flex: 1;
   align-self: stretch;
   justify-content: center;
   align-items: center; }
-  ._KRCJx ._onAhX {
+  ._index-module__loader_container__KRCJx ._index-module__loader__onAhX {
     width: 50px;
     height: 50px; }

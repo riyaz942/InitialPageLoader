@@ -1,74 +1,107 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  Fragment,
+  useImperativeHandle,
+  forwardRef
+} from "react";
 import PropTypes from "prop-types";
-import styles from './index.module.scss';
-import LoaderComponent from './components/loaderComponent';
-import ErrorComponent from './components/errorComponent';
-import EmptyComponent from './components/emptyComponent';
+import LoaderComponent from "./components/loaderComponent";
+import ErrorComponent from "./components/errorComponent";
+import EmptyComponent from "./components/emptyComponent";
 
 const pageStates = {
-  LOADING: 'LOADING',
-  ERROR: 'ERROR',
-  COMPLETED: 'COMPLETED'
+  LOADING: "LOADING",
+  ERROR: "ERROR",
+  COMPLETED: "COMPLETED"
 };
 
-const InitialPageLoader = ({
-  callApiOnMount,
-  api,
-  successCondition,
-  responseParser,
+const InitialPageLoader = forwardRef(
+  (
+    {
+      callApiOnMount,
+      isEmpty,
+      api,
+      successCondition,
+      responseParser,
 
-  errorMessage,  
-  emptyMessage, //TODO
-  children
-}) => {
-  const [pageState, setPageState] = useState('');
-  const [data, setData] = useState(null);
+      errorMessage,
+      emptyMessage,
+      children
+    },
+    ref
+  ) => {
+    const [pageState, setPageState] = useState("");
+    const [data, setData] = useState(null);
 
-  const callApi = () => {
-    setPageState(pageStates.LOADING);
-    const promise = api();
-    
-    promise.then(data => {
-        const parsedData = responseParser(data);
-        setData(parsedData);
+    const callApi = () => {
+      setPageState(pageStates.LOADING);
+      const promise = api();
 
-        if (successCondition(parsedData)) setPageState(pageStates.COMPLETED)
-        else setPageState(pageStates.ERROR)
-      })
-      .catch(error => {
-        setPageState(pageStates.ERROR)
-      })
-  };
+      promise
+        .then(data => {
+          const parsedData = responseParser(data);
+          setData(parsedData);
+          if (successCondition(parsedData)) {
+            setPageState(pageStates.COMPLETED);
+            return;
+          }
 
-  if (callApiOnMount) useEffect(callApi, [api]);
+          throw parsedData;
+        })
+        .catch(error => {
+          setPageState(pageStates.ERROR);
+        });
+    };
 
-  return (
-    <Fragment>
-      {pageState == pageStates.LOADING && <LoaderComponent />}
-      {pageState == pageStates.COMPLETED && children(data)}
-      {pageState == pageStates.ERROR && (
-        <ErrorComponent
-          titleErrorMessage={errorMessage.title}
-          errorMessage={errorMessage.message}
-          onClickRetry={callApi}
-        />
-      )}
-    </Fragment>
-  )
-}
+    useImperativeHandle(ref, () => ({
+      callApi
+    }));
 
+    useEffect(() => {
+      if (callApiOnMount) {
+        callApi();
+      }
+    }, []);
+    console.log({ pageState });
+    return (
+      <Fragment>
+        {pageState === pageStates.LOADING && <LoaderComponent />}
+        {pageState === pageStates.COMPLETED ? (
+          isEmpty ? (
+            <EmptyComponent
+              titleEmptyMessage={emptyMessage.title}
+              emptyMessage={emptyMessage.message}
+            />
+          ) : (
+            children(data)
+          )
+        ) : null}
+        {pageState === pageStates.ERROR && (
+          <ErrorComponent
+            titleErrorMessage={errorMessage.title}
+            errorMessage={errorMessage.message}
+            onClickRetry={callApi}
+          />
+        )}
+      </Fragment>
+    );
+  }
+);
 
 InitialPageLoader.defaultProps = {
   callApiOnMount: true,
-  successCondition: data => typeof data != 'undefined',
+  successCondition: data => typeof data != "undefined",
   responseParser: data => data,
+  isEmpty: false,
   errorMessage: {
-    title: 'Whoops! Something Went Wrong.',
-    message: 'Please Retry Again.',
+    title: "Whoops! Something Went Wrong.",
+    message: "Please Retry Again."
   },
   emptyMessage: {
-    title: '',
-    message: '',
+    title: "",
+    message: ""
   }
 };
 
@@ -79,9 +112,10 @@ InitialPageLoader.propTypes = {
   callApiOnMount: PropTypes.bool, //(Optional) Don't automatically want to call the api on mount, instead
   successCondition: PropTypes.func, //(Optional) Handles the custom success condition
   responseParser: PropTypes.func, //(Optional) Parsers custom data from api
+  isEmpty: PropTypes.bool, //(Optional)
 
   errorMessage: PropTypes.object,
-  emptyMessage: PropTypes.object,
+  emptyMessage: PropTypes.object
 };
 
 export default InitialPageLoader;
