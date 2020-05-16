@@ -1083,7 +1083,7 @@ if (process.env.NODE_ENV !== 'production') {
 /* loaded by smart-asset */
 var progressLoaderIcon = require("./circular-loader~RvpVeyLd.gif");
 
-var styles = {"main_container":"_index-module__main_container__ztB-i","error_container":"_index-module__error_container__hn-Ye","error_title_text":"_index-module__error_title_text__3wXp0","error_message_text":"_index-module__error_message_text__3W3V1","loader_container":"_index-module__loader_container__KRCJx","loader":"_index-module__loader__onAhX"};
+var styles = {"main_container":"_ztB-i","error_container":"_hn-Ye","error_title_text":"_3wXp0","error_message_text":"_3W3V1","loader_container":"_KRCJx","loader":"_onAhX"};
 
 var loaderComponent = function loaderComponent() {
   return /*#__PURE__*/React__default.createElement("div", {

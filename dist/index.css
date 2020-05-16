@@ -1,28 +1,28 @@
-._index-module__main_container__ztB-i {
+._ztB-i {
   display: flex;
   flex-direction: column;
   flex: 1;
   align-self: stretch; }
 
-._index-module__error_container__hn-Ye {
+._hn-Ye {
   display: flex;
   flex-direction: column;
   flex: 1;
   align-self: stretch;
   justify-content: center;
   align-items: center; }
-  ._index-module__error_container__hn-Ye ._index-module__error_title_text__3wXp0 {
+  ._hn-Ye ._3wXp0 {
     font-size: 50px;
     font-weight: bold; }
-  ._index-module__error_container__hn-Ye ._index-module__error_message_text__3W3V1 {
+  ._hn-Ye ._3W3V1 {
     font-size: 16px; }
 
-._index-module__loader_container__KRCJx {
+._KRCJx {
   display: flex;
   flex: 1;
   align-self: stretch;
   justify-content: center;
   align-items: center; }
-  ._index-module__loader_container__KRCJx ._index-module__loader__onAhX {
+  ._KRCJx ._onAhX {
     width: 50px;
     height: 50px; }
