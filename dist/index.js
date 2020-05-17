@@ -1083,7 +1083,7 @@ if (process.env.NODE_ENV !== 'production') {
 /* loaded by smart-asset */
 var progressLoaderIcon = require("./circular-loader~RvpVeyLd.gif");
 
-var styles = {"main_container":"_ztB-i","error_container":"_hn-Ye","error_title_text":"_3wXp0","error_message_text":"_3W3V1","loader_container":"_KRCJx","loader":"_onAhX"};
+var styles = {"main_container":"_index-module__main_container__ztB-i","error_container":"_index-module__error_container__hn-Ye","error_title_text":"_index-module__error_title_text__3wXp0","error_message_text":"_index-module__error_message_text__3W3V1","loader_container":"_index-module__loader_container__KRCJx","loader":"_index-module__loader__onAhX"};
 
 var loaderComponent = function loaderComponent() {
   return /*#__PURE__*/React__default.createElement("div", {
@@ -1109,18 +1109,6 @@ var errorComponent = function errorComponent(_ref) {
   }, "Retry"));
 };
 
-var emptyComponent = function emptyComponent(_ref) {
-  var titleEmptyMessage = _ref.titleEmptyMessage,
-      emptyMessage = _ref.emptyMessage;
-  return /*#__PURE__*/React__default.createElement("div", {
-    className: styles.error_container
-  }, /*#__PURE__*/React__default.createElement("div", {
-    className: styles.error_title_text
-  }, titleEmptyMessage), /*#__PURE__*/React__default.createElement("div", {
-    className: styles.error_message_text
-  }, emptyMessage));
-};
-
 var pageStates = {
   LOADING: "LOADING",
   ERROR: "ERROR",
@@ -1128,15 +1116,13 @@ var pageStates = {
 };
 var InitialPageLoader = React.forwardRef(function (_ref, ref) {
   var callApiOnMount = _ref.callApiOnMount,
-      isEmpty = _ref.isEmpty,
       api = _ref.api,
       successCondition = _ref.successCondition,
       responseParser = _ref.responseParser,
       errorMessage = _ref.errorMessage,
-      emptyMessage = _ref.emptyMessage,
       children = _ref.children;
 
-  var _useState = React.useState(""),
+  var _useState = React.useState(pageStates.COMPLETED),
       pageState = _useState[0],
       setPageState = _useState[1];
 
@@ -1168,17 +1154,12 @@ var InitialPageLoader = React.forwardRef(function (_ref, ref) {
     };
   });
   React.useEffect(function () {
-    if (callApiOnMount) {
-      callApi();
-    }
+    if (callApiOnMount) callApi();
   }, []);
   console.log({
     pageState: pageState
   });
-  return /*#__PURE__*/React__default.createElement(React.Fragment, null, pageState === pageStates.LOADING && /*#__PURE__*/React__default.createElement(loaderComponent, null), pageState === pageStates.COMPLETED ? isEmpty ? /*#__PURE__*/React__default.createElement(emptyComponent, {
-    titleEmptyMessage: emptyMessage.title,
-    emptyMessage: emptyMessage.message
-  }) : children(data) : null, pageState === pageStates.ERROR && /*#__PURE__*/React__default.createElement(errorComponent, {
+  return /*#__PURE__*/React__default.createElement(React.Fragment, null, pageState === pageStates.LOADING && /*#__PURE__*/React__default.createElement(loaderComponent, null), pageState === pageStates.COMPLETED && children(data), pageState === pageStates.ERROR && /*#__PURE__*/React__default.createElement(errorComponent, {
     titleErrorMessage: errorMessage.title,
     errorMessage: errorMessage.message,
     onClickRetry: callApi
@@ -1192,14 +1173,9 @@ InitialPageLoader.defaultProps = {
   responseParser: function responseParser(data) {
     return data;
   },
-  isEmpty: false,
   errorMessage: {
     title: "Whoops! Something Went Wrong.",
     message: "Please Retry Again."
-  },
-  emptyMessage: {
-    title: "",
-    message: ""
   }
 };
 InitialPageLoader.propTypes = {
@@ -1208,9 +1184,7 @@ InitialPageLoader.propTypes = {
   callApiOnMount: propTypes.bool,
   successCondition: propTypes.func,
   responseParser: propTypes.func,
-  isEmpty: propTypes.bool,
-  errorMessage: propTypes.object,
-  emptyMessage: propTypes.object
+  errorMessage: propTypes.object
 };
 
 module.exports = InitialPageLoader;

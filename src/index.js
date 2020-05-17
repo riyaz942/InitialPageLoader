@@ -9,7 +9,6 @@ import React, {
 import PropTypes from "prop-types";
 import LoaderComponent from "./components/loaderComponent";
 import ErrorComponent from "./components/errorComponent";
-import EmptyComponent from "./components/emptyComponent";
 
 const pageStates = {
   LOADING: "LOADING",
@@ -21,18 +20,16 @@ const InitialPageLoader = forwardRef(
   (
     {
       callApiOnMount,
-      isEmpty,
       api,
       successCondition,
       responseParser,
 
       errorMessage,
-      emptyMessage,
       children
     },
     ref
   ) => {
-    const [pageState, setPageState] = useState("");
+    const [pageState, setPageState] = useState(pageStates.COMPLETED);
     const [data, setData] = useState(null);
 
     const callApi = () => {
@@ -60,24 +57,13 @@ const InitialPageLoader = forwardRef(
     }));
 
     useEffect(() => {
-      if (callApiOnMount) {
-        callApi();
-      }
+      if (callApiOnMount) callApi();
     }, []);
     console.log({ pageState });
     return (
       <Fragment>
         {pageState === pageStates.LOADING && <LoaderComponent />}
-        {pageState === pageStates.COMPLETED ? (
-          isEmpty ? (
-            <EmptyComponent
-              titleEmptyMessage={emptyMessage.title}
-              emptyMessage={emptyMessage.message}
-            />
-          ) : (
-            children(data)
-          )
-        ) : null}
+        {pageState === pageStates.COMPLETED && children(data)}
         {pageState === pageStates.ERROR && (
           <ErrorComponent
             titleErrorMessage={errorMessage.title}
@@ -94,14 +80,9 @@ InitialPageLoader.defaultProps = {
   callApiOnMount: true,
   successCondition: data => typeof data != "undefined",
   responseParser: data => data,
-  isEmpty: false,
   errorMessage: {
     title: "Whoops! Something Went Wrong.",
     message: "Please Retry Again."
-  },
-  emptyMessage: {
-    title: "",
-    message: ""
   }
 };
 
@@ -112,10 +93,8 @@ InitialPageLoader.propTypes = {
   callApiOnMount: PropTypes.bool, //(Optional) Don't automatically want to call the api on mount, instead
   successCondition: PropTypes.func, //(Optional) Handles the custom success condition
   responseParser: PropTypes.func, //(Optional) Parsers custom data from api
-  isEmpty: PropTypes.bool, //(Optional)
 
-  errorMessage: PropTypes.object,
-  emptyMessage: PropTypes.object
+  errorMessage: PropTypes.object
 };
 
 export default InitialPageLoader;

@@ -5,15 +5,13 @@ import 'initialpageloader/dist/index.css';
 
 const App = () => {
   //http://www.omdbapi.com/?&page=1&s=avengers
-  const [searchString, setSearchString] = useState('');
-
-  setTimeout(()=>setSearchString('avengers'), 600);
+  const [searchString, setSearchString] = useState('avengers');
 
   return (
     <InitialPageLoader
       api={()=>axios.get(`http://www.omdbapi.com/?&apikey=edd4e8b1&page=1&s=${searchString}`)} // Promise
-      successCondition={(data)=> (data.Response == 'True')}
       responseParser={data => data.data}
+      successCondition={(data)=> (data.Response == 'True')}
     >
       {
         (data) => (
