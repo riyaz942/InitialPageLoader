@@ -1080,7 +1080,7 @@ if (process.env.NODE_ENV !== 'production') {
 /* loaded by smart-asset */
 var progressLoaderIcon = require("./circular-loader~RvpVeyLd.gif");
 
-const styles = {
+var styles = {
   mainContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -1115,7 +1115,7 @@ const styles = {
   }
 };
 
-const loaderComponent = () => {
+var loaderComponent = function loaderComponent() {
   return /*#__PURE__*/React.createElement("div", {
     style: styles.loaderContainer
   }, /*#__PURE__*/React.createElement("img", {
@@ -1124,11 +1124,10 @@ const loaderComponent = () => {
   }));
 };
 
-const errorComponent = ({
-  titleErrorMessage,
-  errorMessage,
-  onClickRetry
-}) => {
+var errorComponent = function errorComponent(_ref) {
+  var titleErrorMessage = _ref.titleErrorMessage,
+      errorMessage = _ref.errorMessage,
+      onClickRetry = _ref.onClickRetry;
   return /*#__PURE__*/React.createElement("div", {
     style: styles.errorContainer
   }, /*#__PURE__*/React.createElement("div", {
@@ -1140,27 +1139,32 @@ const errorComponent = ({
   }, "Retry"));
 };
 
-const pageStates = {
+var pageStates = {
   LOADING: "LOADING",
   ERROR: "ERROR",
   COMPLETED: "COMPLETED"
 };
-const InitialPageLoader = forwardRef(({
-  callApiOnMount,
-  api,
-  successCondition,
-  responseParser,
-  errorMessage,
-  children
-}, ref) => {
-  const [pageState, setPageState] = useState(pageStates.COMPLETED);
-  const [data, setData] = useState(null);
+var InitialPageLoader = forwardRef(function (_ref, ref) {
+  var callApiOnMount = _ref.callApiOnMount,
+      api = _ref.api,
+      successCondition = _ref.successCondition,
+      responseParser = _ref.responseParser,
+      errorMessage = _ref.errorMessage,
+      children = _ref.children;
 
-  const callApi = () => {
+  var _useState = useState(pageStates.COMPLETED),
+      pageState = _useState[0],
+      setPageState = _useState[1];
+
+  var _useState2 = useState(null),
+      data = _useState2[0],
+      setData = _useState2[1];
+
+  var callApi = function callApi() {
     setPageState(pageStates.LOADING);
-    const promise = api();
-    promise.then(data => {
-      const parsedData = responseParser(data);
+    var promise = api();
+    promise.then(function (data) {
+      var parsedData = responseParser(data);
       setData(parsedData);
 
       if (successCondition(parsedData)) {
@@ -1169,19 +1173,21 @@ const InitialPageLoader = forwardRef(({
       }
 
       throw parsedData;
-    }).catch(error => {
+    })["catch"](function (error) {
       setPageState(pageStates.ERROR);
     });
   };
 
-  useImperativeHandle(ref, () => ({
-    callApi
-  }));
-  useEffect(() => {
+  useImperativeHandle(ref, function () {
+    return {
+      callApi: callApi
+    };
+  });
+  useEffect(function () {
     if (callApiOnMount) callApi();
   }, []);
   console.log({
-    pageState
+    pageState: pageState
   });
   return /*#__PURE__*/React.createElement(Fragment$1, null, pageState === pageStates.LOADING && /*#__PURE__*/React.createElement(loaderComponent, null), pageState === pageStates.COMPLETED && children(data), pageState === pageStates.ERROR && /*#__PURE__*/React.createElement(errorComponent, {
     titleErrorMessage: errorMessage.title,
@@ -1191,8 +1197,12 @@ const InitialPageLoader = forwardRef(({
 });
 InitialPageLoader.defaultProps = {
   callApiOnMount: true,
-  successCondition: data => typeof data != "undefined",
-  responseParser: data => data,
+  successCondition: function successCondition(data) {
+    return typeof data != "undefined";
+  },
+  responseParser: function responseParser(data) {
+    return data;
+  },
   errorMessage: {
     title: "Whoops! Something Went Wrong.",
     message: "Please Retry Again."
