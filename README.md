@@ -21,8 +21,8 @@ class Example extends Component {
     return (
       <InitialPageLoader
         api={()=>axios.get('')} // Promise
-        successCondition={(data)=> (data.Response == 'True')}
         responseParser={data => data.data}
+        successCondition={(data)=> (data.Response == 'True')}        
       >
         {
           (data) => (

@@ -5,7 +5,7 @@ import 'initialpageloader/dist/index.css';
 
 const App = () => {
   //http://www.omdbapi.com/?&page=1&s=avengers
-  const [searchString, setSearchString] = useState('avengers');
+  const [searchString, setSearchString] = useState('avengers somethig');
 
   return (
     <InitialPageLoader

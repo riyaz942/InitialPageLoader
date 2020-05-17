@@ -1,12 +1,12 @@
 import React from 'react';
 import progressLoaderIcon from '../icons/circular-loader.gif';
-import styles from '../index.module.scss';
+import styles from '../styles';
 
 const loaderComponent = () => {
   return (
-    <div className={styles.loader_container}>
+    <div style={styles.loaderContainer}>
       <img
-        className={styles.loader}
+        style={styles.loader}
         src={progressLoaderIcon}
       />
     </div>

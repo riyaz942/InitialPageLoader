@@ -1080,13 +1080,46 @@ if (process.env.NODE_ENV !== 'production') {
 /* loaded by smart-asset */
 var progressLoaderIcon = require("./circular-loader~RvpVeyLd.gif");
 
-var styles = {"main_container":"_index-module__main_container__ztB-i","error_container":"_index-module__error_container__hn-Ye","error_title_text":"_index-module__error_title_text__3wXp0","error_message_text":"_index-module__error_message_text__3W3V1","loader_container":"_index-module__loader_container__KRCJx","loader":"_index-module__loader__onAhX"};
+const styles = {
+  mainContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    alignSelf: 'stretch'
+  },
+  errorContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  errorTitleText: {
+    fontSize: 50,
+    fontWeight: 'bold'
+  },
+  errorMessageText: {
+    fontSize: 16
+  },
+  loaderContainer: {
+    display: 'flex',
+    flex: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  loader: {
+    width: 50,
+    height: 50
+  }
+};
 
 const loaderComponent = () => {
   return /*#__PURE__*/React.createElement("div", {
-    className: styles.loader_container
+    style: styles.loaderContainer
   }, /*#__PURE__*/React.createElement("img", {
-    className: styles.loader,
+    style: styles.loader,
     src: progressLoaderIcon
   }));
 };
@@ -1097,11 +1130,11 @@ const errorComponent = ({
   onClickRetry
 }) => {
   return /*#__PURE__*/React.createElement("div", {
-    className: styles.error_container
+    style: styles.errorContainer
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.error_title_text
+    style: styles.errorTitleText
   }, titleErrorMessage), /*#__PURE__*/React.createElement("div", {
-    className: styles.error_message_text
+    style: styles.errorMessageText
   }, errorMessage), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("button", {
     onClick: onClickRetry
   }, "Retry"));
